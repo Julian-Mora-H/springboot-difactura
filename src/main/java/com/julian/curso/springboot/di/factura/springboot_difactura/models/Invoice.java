@@ -7,8 +7,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+
 @Component
 public class Invoice {
+
 
     @Autowired
     private Client client;
@@ -19,7 +23,20 @@ public class Invoice {
     @Autowired
     @Qualifier("default") // Inyecta la lista de items con el nombre del bean "default" de AppConfig
     private List<Item> items;
+
+    @PostConstruct // Metodo que se ejecuta despues del constructor y la inyeccion de dependencias 
+    public void init(){
+        System.out.println("Creando el componente de la Invoice");
+        System.out.println(client.getName() + " " + client.getLastname());
+        client.setName(client.getName().concat(" Alexander"));
+        
+    }
     
+    @PreDestroy // Metodo que se ejecuta antes de destruir el bean
+    public void destroy(){
+        System.out.println("Destruyendo el componente de la Invoice");
+    }
+
     public Client getClient() {
         return client;
     }
