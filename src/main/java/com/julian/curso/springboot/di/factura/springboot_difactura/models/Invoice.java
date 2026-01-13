@@ -37,6 +37,27 @@ public class Invoice {
         this.items = items;
     }
 
-    
+    public int getTotal(){
+
+        // Una forma de tener el total de la factura con un for tradicional
+        /*
+        int total = 0;
+        for (Item item : items) {
+            total += item.getImporte();
+        }*/
+
+        // Otra forma usando programacion funcional con streams y un map reduce
+        int total = items.stream().
+        map(item -> item.getImporte()).
+        reduce(0,(sum, importe) -> sum + importe);
+
+        // Otra forma usando programacion funcional con streams y un reduce directo
+        // int total = items.stream().reduce(0,(sum, item) -> sum + item.getImporte(), Integer::sum);
+
+
+
+        return total;
+    }
+
 
 }
